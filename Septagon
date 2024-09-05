@@ -1,0 +1,117 @@
+#*****************PROGRAM INFORMATION********************
+# * PROGRAM NAME - Heptagon Fractal
+# * PROGRAMMER - Eva Abdul
+# * DATE - Started 05/17/2023
+# *        Completed 05/27/2023
+# * BUGS - nill
+# * DESCRIPTION - This program draws a fractal of a heptagon using recursion
+# ***********************************************************************************
+import turtle
+
+#Setting up variables, making pen color white and setting up screen
+t = turtle.Turtle()
+t.pencolor('white')
+screen = turtle.Screen()
+screen.colormode(255)
+
+#Method that draws Heptagon
+def septagon(ax, ay, len, r, g, b):
+  #Setting variables, and modifiying turtle
+  hAngle = 900.0 / 7.0
+  t.fillcolor((int(r), int(g), int(b)))
+  t.speed(10)
+
+  #Base case, using 10 will do 3 levels of recursion, using 5 will do 4 levels of recursion
+  if len < 5:
+    return
+
+  # Drawing 1st Heptagon
+  t.pu()
+  t.setposition(ax, ay)
+  t.seth(0)
+  t.pd()
+  t.right((180.0 - (900.0 / 7.0)) / 2)
+  t.forward(len)
+
+  #These arrays hold all the points for an inner hexagon 
+  #xcord=[bx,cx,dx,ex,fx,gx]
+  xcord = []
+  #ycord=[by,cy,dy,ey,fy,gy]
+  ycord = []
+
+  #Drawing the heptagon and recording all points used for recurstive calls
+  t.begin_fill()
+  for x in range(6):
+    xcord.append(t.xcor())
+    ycord.append(t.ycor())
+    t.right(180.0 - (900.0 / 7.0))
+    t.forward(len)
+  t.end_fill()
+
+  #Finding next points of inner heptagons
+  #2 heptagon
+  t.pu()
+  t.setposition(xcord[0], ycord[0])
+  t.seth(0)
+  t.left(hAngle + 26)
+  t.forward(len / 3.2)
+  #t.seth(hAngle)
+  x1 = t.xcor()
+  y1 = t.ycor()
+
+  #3 heptagon
+
+  t.setposition(xcord[1], ycord[1])
+  t.seth(0)
+  t.left(hAngle)
+  t.forward(len / 1.8)
+  x2 = t.xcor()
+  y2 = t.ycor()
+
+  #4 heptagon
+
+  t.setposition(xcord[2], ycord[2])
+  t.seth(0)
+  t.left((hAngle) - 25.9)
+  t.forward(len / 1.41)
+  x3 = t.xcor()
+  y3 = t.ycor()
+
+  #5 heptagon
+
+  t.setposition(xcord[3], ycord[3])
+  t.seth(0)
+  t.left((hAngle / 2) + 13)
+  t.forward(len / 1.41)
+  x4 = t.xcor()
+  y4 = t.ycor()
+
+  #6 heptagon
+
+  t.setposition(xcord[4], ycord[4])
+  t.seth(0)
+  t.left(51)
+  t.forward(len / 1.8)
+  x5 = t.xcor()
+  y5 = t.ycor()
+
+  #7 heptagon
+
+  t.setposition(xcord[5], ycord[5])
+  t.seth(0)
+  t.left(26)
+  t.forward(len / 3.2)
+  x6 = t.xcor()
+  y6 = t.ycor()
+
+  #recursive calls
+  septagon(ax, ay, len / 3.2, (x1 + 30) % 255, (x1 + 30) % 255, b)
+  septagon(x1, y1, len / 3.2, x1 % 255, y1 % 255, b)
+  septagon(x2, y2, len / 3.2, x2 % 255, y2 % 255, b)
+  septagon(x3, y3, len / 3.2, x3 % 255, y3 % 255, b)
+  septagon(x4, y4, len / 3.2, x4 % 255, y4 % 255, b)
+  septagon(x5, y5, len / 3.2, x5 % 255, y5 % 255, b)
+  septagon(x6, y6, len / 3.2, x6 % 255, y6 % 255, b)
+
+
+septagon(0.0, 250.0, 180.0, 240, 140, 240)
